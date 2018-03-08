@@ -7,13 +7,18 @@ class PostsController < ApplicationController
 
 def show
   @post = Post.find params[:id]
-  
+
   @answer = Answer.new
   @answers = @post.answers.order(created_at: :desc)
 end
 
 def index
-  @posts = Post.order(created_at: :desc)
+  @posts = Post.all
+  if params[:search]
+    @posts = Post.search(params[:search]).order("created_at DESC")
+  else
+    @posts = Post.all.order("created_at DESC")
+  end
 end
 
 
@@ -59,7 +64,7 @@ end
  private
 
 def post_params
-  params.require(:post).permit(:title, :body)
+  params.require(:post).permit(:title, :body, :img)
 end
 
 

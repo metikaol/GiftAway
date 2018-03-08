@@ -21,4 +21,8 @@ class Post < ApplicationRecord
     self.title.capitalize!
   end
 
+  def self.search(search)
+  where("title ILIKE ? OR body ILIKE ?", "%#{search}%", "%#{search}%") 
+  end
+
   end

@@ -1,3 +1,16 @@
+<% if @post.img %>
+  <%= image_tag(@post.img ,
+    class: "img-fluid",
+    style: "border-radius: 5px; width:200px; height:200;"
+    ) %>
+<% else %>
+  <%= image_tag("Gifticon.png" ,
+    class: "img-fluid",
+    style: "border-radius: 5px;
+    width:200px; height:200px;"
+    ) %>
+<% end %>
+
 <h2><%= @post.title %></h2>
 
 <p><%= @post.body %></p>
@@ -32,7 +45,7 @@
   <% end %>
 </div>
 
-<h3>Reviews</h3>
+<h3>Answers</h3>
 
 <%#
   When using form_for for a model that belongs to another,
@@ -55,13 +68,11 @@
 
   <input
   class="btn btn-outline-primary mt-4 "
-  <%= f.submit "Review Idea" %>
+  <%= f.submit "Answer Posted" %>
   </>
 
 <% end %>
 
-<h1>Testing</h1>
-<input type="file" name="filefield" multiple="multiple">
 
 
 
@@ -71,7 +82,7 @@
       <p>
         <%= answer.body %> <br />
         <small>
-          Reviewed
+          Answered
           <%= time_ago_in_words(answer.created_at) %>
           ago
         </small>
