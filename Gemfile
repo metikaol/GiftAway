@@ -1,9 +1,14 @@
 source 'https://rubygems.org'
 
+ruby '2.5.0'
+
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
+
+gem 'bootstrap', '~> 4.0.0'
+gem 'jquery-rails'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -19,6 +24,8 @@ gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
+gem 'cancancan'
+
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -27,31 +34,20 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
-gem 'cancancan'
-gem 'font-awesome-rails'
-gem 'jquery-rails'
-gem 'chosen-rails'
-gem 'delayed_job_active_record'
-gem 'delayed_job_web'
-gem 'active_model_serializers'
-gem 'jwt'
-gem 'rack-cors'
+gem 'faker', '~> 1.8.7'
+gem 'cowsay'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  # gem 'rspec-rails'
+  # gem 'rails-controller-testing'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'hirb'
   gem 'awesome_print'
-  gem 'interactive_editor'
-  gem 'faker'
-  gem 'rspec-rails'
-  gem 'rails-controller-testing'
-  gem 'factory_bot_rails'
-  gem 'letter_opener'
-
+  # gem 'factory_bot_rails'
 end
 
 group :development do

@@ -1,0 +1,95 @@
+<h2><%= @post.title %></h2>
+
+<p><%= @post.body %></p>
+
+
+<div >
+<small>
+  Posted
+  <%= time_ago_in_words(@post.created_at) %>
+  ago
+</small>
+●
+<small>
+   By <%= @post.user&.full_name || '[DELETED]' %>
+ </small>
+
+</div>
+
+<div>
+  <% if can?(:update, @post) %>
+    <%= link_to 'Edit', edit_post_path(@post) %>
+  <% end %>
+
+  <% if can?(:destroy, @post) %>
+    <%= link_to 'Delete',
+      post_path(@post),
+      method: :delete,
+      data: {
+        confirm: 'Are you sure?'
+      }
+    %>
+  <% end %>
+</div>
+
+<h3>Reviews</h3>
+
+<%#
+  When using form_for for a model that belongs to another,
+  you can specify that relantionship in the form using
+  an array. In [@post, @answer], @post is the instance
+  that is persisted and owns @answer. @answer is new and is
+  being created.
+%>
+
+<%= form_for [@post, @answer] do |f| %>
+  <% if @answer.errors.present? %>
+    <p>
+      <%= @answer.errors.full_messages.join(', ') %>
+    </p>
+  <% end %>
+
+  <div>
+    <%= f.text_area :body, class:"form-control", placeholder: "What's on your mind?" %>
+  </div>
+
+  <input
+  class="btn btn-outline-primary mt-4 "
+  <%= f.submit "Review Idea" %>
+  </>
+
+<% end %>
+
+<h1>Testing</h1>
+<input type="file" name="filefield" multiple="multiple">
+
+
+
+<div class="answer-list">
+  <% @answers.each do |answer| %>
+    <div class="answer-list-item">
+      <p>
+        <%= answer.body %> <br />
+        <small>
+          Reviewed
+          <%= time_ago_in_words(answer.created_at) %>
+          ago
+        </small>
+
+        <% if can?(:destroy, answer) %>
+        <small>
+    <%= link_to 'Delete',
+      answer_path(answer),
+      method: :delete,
+      data: { confirm: 'Are you sure?' }
+       %>
+      </small>
+      <% end %>
+        ●
+        <small>
+          By <%= answer.user&.full_name || '[DELETED]' %>
+        </small>
+      </p>
+    </div>
+  <% end %>
+</div>

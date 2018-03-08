@@ -1,0 +1,26 @@
+
+<%= form_for(@post)do|f| %>
+  <% if @post.errors.present? %>
+      <p><%= @post.errors.full_messages.join(',') %></p>
+  <% end %>
+
+  <div >
+    <%= f.label :title %>
+    <%= f.text_field :title ,class:"form-control"%>
+  </div>
+
+  <div >
+    <%= f.label(:body) %>
+    <%= f.text_area(:body, class: "form-control") %>
+  </div>
+
+  <input
+  class="btn btn-outline-primary mt-4 "
+  <%= f.submit "Create Idea" %>
+  </>
+<% end %>
+
+<%# f.submit 'submit'  it will show submit word %>
+
+<%# For more on form helpers, go to:
+http://guides.rubyonrails.org/form_helpers.html  %>
