@@ -1,4 +1,4 @@
-<% if @post.img %>
+<% if @post.img && @post.img != ''%>
   <%= image_tag(@post.img ,
     class: "img-fluid",
     style: "border-radius: 5px; width:200px; height:200;"
@@ -64,6 +64,12 @@
 
   <div>
     <%= f.text_area :body, class:"form-control", placeholder: "What's on your mind?" %>
+  </div>
+
+  <h6>Your Contact Info</h6>
+
+  <div>
+    <%= f.text_area :contact, class:"form-control", placeholder: "Phone number or Email address" %>
   </div>
 
   <input

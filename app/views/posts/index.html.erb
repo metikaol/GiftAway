@@ -4,7 +4,7 @@
 
 <% @posts.each do |post| %>
 <div class="post-list-item">
-  <% if post.img %>
+  <% if post.img && post.img != '' %>
   <%= image_tag(post.img ,
     class: "img-fluid",
     style: "border-radius: 5px; width:200px; height:200;"
