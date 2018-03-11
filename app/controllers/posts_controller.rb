@@ -14,8 +14,10 @@ end
 
 def index
   @posts = Post.all
-  if params[:search]
+  if params[:search].present?
     @posts = Post.search(params[:search]).order("created_at DESC")
+  elsif params[:search2].present?
+    @posts = Post.near(params[:search2], 50)
   else
     @posts = Post.all.order("created_at DESC")
   end
@@ -40,7 +42,7 @@ def create
  end
 
 
- def edit
+def edit
   @post = Post.find params[:id]
 end
 
@@ -64,7 +66,7 @@ end
  private
 
 def post_params
-  params.require(:post).permit(:title, :body, :img)
+  params.require(:post).permit(:title, :body, :img, :address)
 end
 
 

@@ -2,10 +2,16 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :answers, dependent: :destroy
 
-  validates :title, presence: true, uniqueness:true
+  validates :title, presence: true
   validates :body,
   presence: {message: "must be given"},
   length: {minimum:10, maximum:2000}
+
+# Set up geocoder part
+  # attr_accessible :address, :latitude, :longitude
+  geocoded_by :address
+  after_validation :geocode, :if => :address_changed?
+
 
 
 
@@ -22,7 +28,7 @@ class Post < ApplicationRecord
   end
 
   def self.search(search)
-  where("title ILIKE ? OR body ILIKE ?", "%#{search}%", "%#{search}%") 
+  where("title ILIKE ? OR body ILIKE ?", "%#{search}%", "%#{search}%")
   end
 
   end

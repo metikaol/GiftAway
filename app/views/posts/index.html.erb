@@ -1,3 +1,15 @@
+
+
+  <%= form_tag posts_path, :method => :get do %>
+    <p>
+  <%= text_field_tag :search2, params[:search2], placeholder: "Your Address" %>
+
+  <%= submit_tag "Search Near", class: "btn btn-outline-primary mr-2", :name => nil %>
+    </p>
+  <% end %>
+
+
+
 <% if @posts.blank? %>
   <h4>There are no posts containing the term <%= params[:search] %>.</h4>
 <% end %>
@@ -16,7 +28,8 @@
     width:200px; height:200px;"
     ) %>
   <% end %>
-</br>
+
+  </br>
   <%= link_to post.title, post_path(post) %></br>
   <%= post.body %>
   <hr>
