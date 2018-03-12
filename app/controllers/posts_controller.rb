@@ -9,7 +9,12 @@ def show
   @post = Post.find params[:id]
 
   @answer = Answer.new
-  @answers = @post.answers.order(created_at: :desc)
+
+  if @post.user == current_user
+    @answers = @post.answers.order(created_at: :desc)
+  else
+    @answers = @post.answers.where(user: current_user).order(created_at: :desc)
+  end
 end
 
 def index

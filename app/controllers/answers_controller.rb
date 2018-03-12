@@ -11,6 +11,13 @@ class AnswersController < ApplicationController
          @answer.user = current_user
 
          if @answer.save
+           client = Twilio::REST::Client.new
+            client.messages.create({
+              from: Rails.application.secrets.twilio_phone_number,
+              to: "1#{@post.user.contact_number}",
+              body: "Reply: #{@answer.body} from: #{@answer.user.first_name} Contacted by: #{@answer.contact}"
+            })
+
            redirect_to post_path(@post)
          else
            @answers = @post.answers.order(created_at: :desc)
@@ -26,7 +33,7 @@ class AnswersController < ApplicationController
 
     private
     def answer_params
-      params.require(:answer).permit(:body)
+      params.require(:answer).permit(:body, :contact)
     end
 
     def find_answer
