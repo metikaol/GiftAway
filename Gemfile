@@ -12,6 +12,9 @@ gem 'jquery-rails'
 gem 'geocoder'
 
 gem 'twilio-ruby'
+gem 'active_model_serializers'
+gem 'jwt'
+gem 'rack-cors'
 
 
 

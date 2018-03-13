@@ -2,7 +2,7 @@
 
   <%= form_tag posts_path, :method => :get do %>
     <p>
-  <%= text_field_tag :search2, params[:search2], placeholder: "Your Address" %>
+  <%= text_field_tag :search2, "", placeholder: "Your Address" %>
 
   <%= submit_tag "Search Near", class: "btn btn-outline-primary mr-2", :name => nil %>
     </p>
