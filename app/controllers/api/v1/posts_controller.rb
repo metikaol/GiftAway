@@ -13,10 +13,31 @@ class Api::V1::PostsController < Api::ApplicationController
     end
 
     def create
+      # user = User.first
       post = Post.new post_params
       post.user = current_user
       post.save
       render json: {id: post.id}
+    end
+
+
+    def edit
+      @post = Post.find params[:id]
+    end
+
+    def update
+      @post = Post.find params[:id]
+
+      if @post.update post_params
+        # redirect_to post_path(@post)
+        render json: @post
+      else
+        render json: @post.errors
+      end
+    end
+
+    def destroy
+    @post.destroy
     end
 
     private
@@ -25,6 +46,16 @@ class Api::V1::PostsController < Api::ApplicationController
     end
 
     def post_params
-      params.require(:post).permit(:title, :body)
+      params.require(:post).permit(
+        [
+          :title,
+          :body,
+          albums_attributes: %I[
+          id
+          photo
+          _destroy
+          ]
+        ]
+      )
     end
   end

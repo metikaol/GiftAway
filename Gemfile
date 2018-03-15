@@ -15,6 +15,8 @@ gem 'twilio-ruby'
 gem 'active_model_serializers'
 gem 'jwt'
 gem 'rack-cors'
+gem 'paperclip', '~> 5.1.0'
+gem 'mini_magick'
 
 
 
