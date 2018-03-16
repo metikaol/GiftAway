@@ -15,10 +15,6 @@ class Post < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, :if => :address_changed?
 
-
-
-
-
   before_save :set_title
 
   def as_json(_opts = {})
@@ -29,7 +25,7 @@ class Post < ApplicationRecord
      errors: errors,
      album_photos: albums.map do |x|
        {
-         url: x.photo.url.absolute_url,
+         url: x.photo.url,
          name: x.photo_file_name,
          id: x.id
        }
@@ -42,7 +38,7 @@ class Post < ApplicationRecord
   # instance methode
   # this function can be called by instance only
   # p = Product.new ==> p is instance
-  
+
   def set_title
     self.title.capitalize!
   end

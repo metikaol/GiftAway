@@ -2,28 +2,23 @@ class PostSerializer < ActiveModel::Serializer
   attributes :id, :title, :body, :created_at, :updated_at
 
   has_many :albums
-  class AlbumSerializer < ActiveModel::Serializer
-    attributes :id, :photo
+
+  def albums
+    object.albums.collect do |li|
+      {
+        id: li.id,
+        photo_url: li.photo.url,
+        photo_name: li.photo_file_name,
+        photo_id: li.id
+      }
+
+    end
   end
 
-  def as_json(_opts = {})
-   {
-     id: id,
-     title: title,
-     body: body,
-     errors: errors,
-     album_photos: albums.map do |x|
-       {
-         url: x.photo.url.absolute_url,
-         name: x.photo_file_name,
-         id: x.id
-       }
-     end
-   }
- end
 
-
-
+  # class AlbumSerializer < ActiveModel::Serializer
+  #   attributes :id, :url, :name
+  # end
 
   belongs_to :user, key: :author
     class UserSerializer < ActiveModel::Serializer
