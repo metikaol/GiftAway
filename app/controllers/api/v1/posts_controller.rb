@@ -13,7 +13,6 @@ class Api::V1::PostsController < Api::ApplicationController
     end
 
     def create
-      # user = User.first
       post = Post.new post_params
       post.user = current_user
       post.save

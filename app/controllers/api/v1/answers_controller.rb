@@ -1,6 +1,6 @@
 class Api::V1::AnswersController < Api::ApplicationController
   before_action :authenticate_user!
-    before_action :find_answer, :authorize_user!, only: [:destroy]
+  before_action :find_answer, :authorize_user!, only: [:destroy]
 
 
     def create
