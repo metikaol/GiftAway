@@ -1,5 +1,24 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :created_at, :updated_at
+  attributes :id, :title, :body, :created_at, :updated_at, :latitude, :longitude
+
+  has_many :albums
+
+  def albums
+    object.albums.collect do |li|
+      {
+        id: li.id,
+        photo_url: li.photo.url,
+        photo_name: li.photo_file_name,
+        photo_id: li.id
+      }
+
+    end
+  end
+
+
+  # class AlbumSerializer < ActiveModel::Serializer
+  #   attributes :id, :url, :name
+  # end
 
   has_many :albums
 
