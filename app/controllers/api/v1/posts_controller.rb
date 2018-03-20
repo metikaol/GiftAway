@@ -46,7 +46,7 @@ class Api::V1::PostsController < Api::ApplicationController
 
     def post_params
       params.require(:post).permit(
-        [
+        [ :address,
           :title,
           :body,
           albums_attributes: %I[
