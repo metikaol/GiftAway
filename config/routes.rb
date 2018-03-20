@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {format: :json} do
   namespace :v1 do
-    resources :posts
+      resources :posts do
+        resources :answers, only: [:create, :destroy], shallow: true
+    end
     resources :tokens, only: [:create]
   end
 end
