@@ -1,5 +1,5 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :created_at, :updated_at
+  attributes :id, :title, :body, :created_at, :updated_at, :latitude, :longitude
 
   has_many :albums
 
