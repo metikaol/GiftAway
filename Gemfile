@@ -17,10 +17,9 @@ gem 'jwt'
 gem 'rack-cors'
 gem 'paperclip', '~> 5.1.0'
 gem 'mini_magick'
-<<<<<<< HEAD
 
-=======
->>>>>>> feature/googlemap
+
+
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
