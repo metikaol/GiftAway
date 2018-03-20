@@ -15,6 +15,7 @@ super_user = User.create(
   first_name: 'Jon',
   last_name: 'Snow',
   email: 'js@gmail.com',
+  address: 'vancouver',
   password: PASSWORD,
 )
 

@@ -4,9 +4,10 @@ class User < ApplicationRecord
 
 
 
-    has_secure_password
+  has_secure_password
 
-    validates :first_name, :last_name, presence: true
+  validates :first_name, :last_name, presence: true
+  validates :contact_number, length: {minimum:10, maximum:10}
 
 
 
@@ -25,5 +26,17 @@ format: VALID_EMAIL_REGEX
 def full_name
   "#{first_name} #{last_name}".strip
 end
+
+before_validation :clean_contact_number
+
+private
+def clean_contact_number
+  contact_number = self.contact_number.scan(/\d+/).join
+  contact_number[0] == "1" ? contact_number[0] = '' : contact_number
+  self.contact_number = contact_number
+end
+
+
+
 
 end
