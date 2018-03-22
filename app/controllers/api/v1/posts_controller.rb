@@ -1,10 +1,18 @@
 class Api::V1::PostsController < Api::ApplicationController
     before_action :authenticate_user!, except: [:index]
     before_action :find_post, only: [:show, :update, :destroy]
-    # /api/v1/posts
-    # /api/v2/posts
+
     def index
-      posts = Post.order(created_at: :desc)
+
+      if params[:search1].present? && params[:search2].present?
+        posts = Post.near(params[:search2], 50).search(params[:search1]).order("created_at DESC")
+      elsif params[:search1].present?
+        posts = Post.search(params[:search1]).order("created_at DESC")
+      elsif params[:search2].present?
+        posts = Post.near(params[:search2], 50)
+      else
+        posts = Post.all.order("created_at DESC")
+      end
       render json: posts
     end
 
