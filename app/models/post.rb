@@ -4,11 +4,11 @@ class Post < ApplicationRecord
 
   has_many :albums, dependent: :destroy
   accepts_nested_attributes_for :albums, allow_destroy: true
-
+  validates :address, presence: true
   validates :title, presence: true
   validates :body,
   presence: {message: "must be given"},
-  length: {minimum:10, maximum:2000}
+  length: {minimum:5, maximum:2000}
 
 # Set up geocoder part
   # attr_accessible :address, :latitude, :longitude

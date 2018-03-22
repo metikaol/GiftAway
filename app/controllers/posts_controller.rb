@@ -18,11 +18,12 @@ def show
 end
 
 def index
+  # byebug
   @posts = Post.all
-  if params[:search].present?
-    @posts = Post.search(params[:search]).order("created_at DESC")
+  if params[:search1].present?
+    @posts = Post.search(params[:search1]).order("created_at DESC")
   elsif params[:search2].present?
-    @posts = Post.near(params[:search2], 50)
+    @posts = Post.near(params[:search2], 50, :order => "distance").limit(10)
   else
     @posts = Post.all.order("created_at DESC")
   end
