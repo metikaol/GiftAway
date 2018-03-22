@@ -4,8 +4,7 @@ class Api::V1::PostsController < Api::ApplicationController
     # /api/v1/posts
     # /api/v2/posts
     def index
-      byebug
-
+      # byebug
       if params[:search1].present? && params[:search2].present?
         posts = Post.near(params[:search2], 50).search(params[:search1]).order("created_at DESC")
       elsif params[:search1].present?
