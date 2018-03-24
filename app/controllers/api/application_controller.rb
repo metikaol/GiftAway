@@ -27,8 +27,61 @@ class Api::ApplicationController < ApplicationController
   end
   helper_method :current_user
 
+  def not_found
+  render(
+    json: {
+      errors: [{
+        type: "NotFound"
+      }]
+    },
+    status: :not_found # :not_found is alias for 404 in rails
+  )
+end
+
   private
   def authenticate_user!
     head :unauthorized unless current_user.present?
   end
-end
+
+  def encode_token(payload = {}, exp = 24.hours.from_now)
+      payload[:exp] = exp.to_i # important!!! otherwise token never expires!
+      JWT.encode(
+        payload,
+        Rails.application.secrets.secret_key_base
+      )
+    end
+
+    protected
+
+    def standard_error(error)
+      render(
+        json: {
+          errors: [{
+            type: error.class.to_s,
+            message: error.message
+          }]
+        },
+        status: :internal_server_error # alias for status code 500
+      )
+    end
+
+    def record_invalid(error)
+      record = error.record
+      errors = record.errors.map do |field, message|
+        {
+          type: error.class.to_s,
+          record_type: record.class.to_s,
+          field: field,
+          message: message
+        }
+      end
+
+      render(
+        json: {
+          errors: errors
+        },
+        status: :unprocessable_entity # alias for status code 422
+      )
+    end
+
+  end
