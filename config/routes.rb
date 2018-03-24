@@ -7,6 +7,7 @@ Rails.application.routes.draw do
         resources :answers, only: [:create, :destroy], shallow: true
     end
     resources :tokens, only: [:create]
+    resources :users, only: [:create]
   end
 end
 
