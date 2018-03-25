@@ -23,7 +23,7 @@ class Api::V1::PostsController < Api::ApplicationController
     def create
       post = Post.new post_params
       post.user = current_user
-      post.save
+      post.save!
       render json: {id: post.id}
     end
 

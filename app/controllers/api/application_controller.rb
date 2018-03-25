@@ -6,6 +6,34 @@ class Api::ApplicationController < ApplicationController
   # we'll skip that code.
   skip_before_action :verify_authenticity_token
 
+  # `rescue_from` is a method that usable inside controllers
+  # to prevent applications from crashing when an exception (a crash)
+  # occurs. If given an `with:` with a symbol named after a method,
+  # that method will be called instead of crashing the program.
+
+  # The priority for rescue_from is the reverse error of the
+  # lines they were declared in. Meaning that more specific errors
+  # should be at the bottom while more generic errors should be
+  # at the top.
+
+  # StandardError is the ancestor class of all errors that might
+  # occur from our own code.
+  rescue_from StandardError, with: :standard_error
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
+
+  def not_found
+    render(
+      json: {
+        errors: [{
+          type: "NotFound"
+        }]
+      },
+      status: :not_found # :not_found is alias for 404 in rails
+    )
+  end
+
+  private
   def current_user
     token = request.headers["AUTHORIZATION"]
 
@@ -27,61 +55,65 @@ class Api::ApplicationController < ApplicationController
   end
   helper_method :current_user
 
-  def not_found
-  render(
-    json: {
-      errors: [{
-        type: "NotFound"
-      }]
-    },
-    status: :not_found # :not_found is alias for 404 in rails
-  )
-end
-
-  private
   def authenticate_user!
-    head :unauthorized unless current_user.present?
-  end
-
-  def encode_token(payload = {}, exp = 24.hours.from_now)
-      payload[:exp] = exp.to_i # important!!! otherwise token never expires!
-      JWT.encode(
-        payload,
-        Rails.application.secrets.secret_key_base
-      )
-    end
-
-    protected
-
-    def standard_error(error)
+    unless current_user.present?
       render(
         json: {
           errors: [{
-            type: error.class.to_s,
-            message: error.message
+            type: "Unauthorized"
           }]
         },
-        status: :internal_server_error # alias for status code 500
+        status: :unauthorized # alias for status code 401
       )
     end
-
-    def record_invalid(error)
-      record = error.record
-      errors = record.errors.map do |field, message|
-        {
-          type: error.class.to_s,
-          record_type: record.class.to_s,
-          field: field,
-          message: message
-        }
-      end
-
-      render(
-        json: {
-          errors: errors
-        },
-        status: :unprocessable_entity # alias for status code 422
-      )
-    end
-
   end
+
+  protected
+  # protected is like private except that it prevents descendent
+  # classes from using protected methods.
+  def record_not_found(error)
+    render(
+      json: {
+        errors: [{
+          type: error.class.to_s,
+          message: error.message
+        }]
+      },
+      status: :not_found
+    )
+  end
+
+  def standard_error(error)
+    logger.error "#{error.class.to_s} #{error.message}"
+    logger.error error.backtrace.join("\r\n")
+
+    render(
+      json: {
+        errors: [{
+          type: error.class.to_s,
+          message: error.message
+        }]
+      },
+      status: :internal_server_error # alias for status code 500
+    )
+  end
+
+  def record_invalid(error)
+    record = error.record
+    errors = record.errors.map do |field, message|
+      {
+        type: error.class.to_s,
+        record_type: record.class.to_s,
+        field: field,
+        message: message
+      }
+    end
+
+    render(
+      json: {
+        errors: errors
+      },
+      status: :unprocessable_entity # alias for status code 422
+    )
+  end
+end
