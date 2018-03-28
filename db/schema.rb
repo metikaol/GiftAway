@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180308085811) do
+ActiveRecord::Schema.define(version: 20180313043547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "albums", force: :cascade do |t|
+    t.bigint "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "photo_file_name"
+    t.string "photo_content_type"
+    t.integer "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.index ["post_id"], name: "index_albums_on_post_id"
+  end
 
   create_table "answers", force: :cascade do |t|
     t.text "body"
@@ -32,6 +43,13 @@ ActiveRecord::Schema.define(version: 20180308085811) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.text "img"
+    t.string "address"
+    t.float "latitude"
+    t.float "longitude"
+    t.string "image_file_name"
+    t.string "image_content_type"
+    t.integer "image_file_size"
+    t.datetime "image_updated_at"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -43,9 +61,11 @@ ActiveRecord::Schema.define(version: 20180308085811) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "contact_number"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "albums", "posts"
   add_foreign_key "answers", "posts"
   add_foreign_key "answers", "users"
   add_foreign_key "posts", "users"

@@ -1,6 +1,6 @@
-class AnswersController < ApplicationController
+class Api::V1::AnswersController < Api::ApplicationController
   before_action :authenticate_user!
-    before_action :find_answer, :authorize_user!, only: [:destroy]
+  before_action :find_answer, :authorize_user!, only: [:destroy]
 
 
     def create
@@ -18,17 +18,20 @@ class AnswersController < ApplicationController
               body: "Reply: #{@answer.body} from: #{@answer.user.first_name} Contacted by: #{@answer.contact}"
             })
 
-           redirect_to post_path(@post)
+            render json: @post
+
+           # redirect_to post_path(@post)
          else
            @answers = @post.answers.order(created_at: :desc)
-           render 'posts/show'
+           # render 'posts/show'
+           render json: @answers
          end
     end
 
     def destroy
       answer = Answer.find params[:id]
       answer.destroy
-      redirect_to post_path(answer.post)
+      # redirect_to post_path(answer.post)
     end
 
     private

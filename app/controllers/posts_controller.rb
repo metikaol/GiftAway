@@ -9,13 +9,21 @@ def show
   @post = Post.find params[:id]
 
   @answer = Answer.new
-  @answers = @post.answers.order(created_at: :desc)
+
+  if @post.user == current_user
+    @answers = @post.answers.order(created_at: :desc)
+  else
+    @answers = @post.answers.where(user: current_user).order(created_at: :desc)
+  end
 end
 
 def index
+  # byebug
   @posts = Post.all
-  if params[:search]
-    @posts = Post.search(params[:search]).order("created_at DESC")
+  if params[:search1].present?
+    @posts = Post.search(params[:search1]).order("created_at DESC")
+  elsif params[:search2].present?
+    @posts = Post.near(params[:search2], 50, :order => "distance").limit(10)
   else
     @posts = Post.all.order("created_at DESC")
   end
@@ -40,7 +48,7 @@ def create
  end
 
 
- def edit
+def edit
   @post = Post.find params[:id]
 end
 
@@ -64,7 +72,7 @@ end
  private
 
 def post_params
-  params.require(:post).permit(:title, :body, :img)
+  params.require(:post).permit(:title, :body, :img, :address)
 end
 
 

@@ -27,7 +27,7 @@
              <div class="form-inline">
                <%= form_tag(posts_path, :method => "get", id: "search-form") do %>
 
-               <%= text_field_tag :search, params[:search], class:"form-control mr-2", placeholder: "Search Posts" %>
+               <%= text_field_tag :search1, params[:search1], class:"form-control mr-2", placeholder: "Search Posts" %>
 
                <%= submit_tag "Search", class: "btn btn-outline-primary mr-2", :name => nil %>
                <% end %>
@@ -104,6 +104,11 @@
                   <div >
                     <%= f.label(:body) %>
                     <%= f.text_area(:body, class: "form-control") %>
+                  </div>
+
+                  <div >
+                    <%= f.label :location_for_picking_up_item %>
+                    <%= f.text_field :address ,class:"form-control"%>
                   </div>
 
                   <input
