@@ -28,19 +28,13 @@ class Api::V1::PostsController < Api::ApplicationController
       render json: {id: post.id}
     end
 
-
-    def edit
-      @post = Post.find params[:id]
-    end
-
     def update
       @post = Post.find params[:id]
 
       if @post.update post_params
-        # redirect_to post_path(@post)
         render json: @post
       else
-        render json: @post.errors
+        render json: @post.errors, status: :unprocessable_entity
       end
     end
 
