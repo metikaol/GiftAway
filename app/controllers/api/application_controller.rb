@@ -6,6 +6,20 @@ class Api::ApplicationController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
 
+  def current_user
+    token = request.headers["AUTHORIZATION"]
+    begin
+      payload = JWT.decode(
+        token,
+        Rails.application.secrets.secret_key_base
+        )&.first
+        @user ||= User.find_by(id: payload["id"])
+      rescue JWT::DecodeError => error
+        error ? nil : nil
+      end
+    end
+    helper_method :current_user
+
   def not_found
     render(
       json: {
@@ -17,23 +31,9 @@ class Api::ApplicationController < ApplicationController
     )
   end
 
-  def current_user
-    token = request.headers["AUTHORIZATION"]
-
-    begin
-      payload = JWT.decode(
-        token,
-        Rails.application.secrets.secret_key_base
-      )&.first
-
-      @user ||= User.find_by(id: payload["id"])
-    rescue JWT::DecodeError => error
-      nil
-    end
-  end
-  helper_method :current_user
 
   private
+  
   def authenticate_user!
     unless current_user.present?
       render(
