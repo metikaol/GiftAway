@@ -1,8 +1,11 @@
 class Album < ApplicationRecord
   belongs_to :post, inverse_of: :albums
   has_attached_file \
-  :photo,
-  styles: { thumb: ['300x300#', 'jpg'] },
+  :photo, styles: {
+    thumb: '100x100>',
+    square: '200x200>',
+    medium: '300x300>'
+  },
   convert_options: {
     all: '-interlace Plane'
   },
