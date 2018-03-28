@@ -1,6 +1,7 @@
 class Api::V1::PostsController < Api::ApplicationController
     before_action :authenticate_user!, except: [:index]
     before_action :find_post, only: [:show, :update, :destroy]
+    before_action :authorize_user!, only: [:destroy]
 
     def index
 
@@ -50,6 +51,13 @@ class Api::V1::PostsController < Api::ApplicationController
     private
     def find_post
       @post = Post.find params[:id]
+    end
+
+    def authorize_user!
+      unless can?(:manage, @post)
+        flash[:alert] = "Access Denied"
+        redirect_to product_path(@post.post)
+      end
     end
 
     def post_params
