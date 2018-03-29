@@ -12,8 +12,23 @@ class Api::V1::UsersController < Api::ApplicationController
         })
       }
     else
-      p user.errors.full_messages
-      head :bad_request
+      
+      error_data = user.errors.messages
+      errors = []
+      error_data.each do |k, v|
+        error_obj = {}
+        error_obj["field"] = k
+
+        error = []
+        error << v
+
+        error_obj["message"] = error
+        errors << error_obj
+      end
+
+      render(
+        json: errors
+      )
     end
   end
 
