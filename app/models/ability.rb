@@ -34,7 +34,7 @@ class Ability
     end
 
     can :manage, Answer do |answer|
-    answer.user == user || answer.post.user == user
+    answer.post.user == user
     end
   end
 end

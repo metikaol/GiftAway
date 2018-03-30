@@ -49,8 +49,7 @@ class Api::V1::PostsController < Api::ApplicationController
 
     def authorize_user!
       unless can?(:manage, @post)
-        flash[:alert] = "Access Denied"
-        redirect_to product_path(@post.post)
+        render json: {errors: "Access Denied"}
       end
     end
 
