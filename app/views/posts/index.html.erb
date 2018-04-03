@@ -16,19 +16,11 @@
 
 <% @posts.each do |post| %>
 <div class="post-list-item">
-  <% if post.img && post.img != '' %>
-  <%= image_tag(post.img ,
-    class: "img-fluid",
-    style: "border-radius: 5px; width:200px; height:200;"
-    ) %>
-  <% else %>
   <%= image_tag("Gifticon.png" ,
     class: "img-fluid",
     style: "border-radius: 5px;
     width:200px; height:200px;"
     ) %>
-  <% end %>
-
   </br>
   <%= link_to post.title, post_path(post) %></br>
   <%= post.body %>
