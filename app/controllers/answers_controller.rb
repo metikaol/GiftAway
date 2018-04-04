@@ -4,7 +4,6 @@ class AnswersController < ApplicationController
 
 
     def create
-      # render json: params
          @post = Post.find params[:post_id]
          @answer = Answer.new answer_params
          @answer.post = @post
