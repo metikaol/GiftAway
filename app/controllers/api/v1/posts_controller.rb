@@ -4,7 +4,6 @@ class Api::V1::PostsController < Api::ApplicationController
     before_action :authorize_user!, only: [:destroy]
 
     def index
-
       if params[:search_item].present? && params[:search_location].present?
         posts = Post.near(params[:search_location], 50).search(params[:search_item]).order("created_at DESC")
       elsif params[:search_item].present?
