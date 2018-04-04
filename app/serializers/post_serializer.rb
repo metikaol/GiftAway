@@ -47,7 +47,7 @@ class PostSerializer < ActiveModel::Serializer
     # create the serializer for that model inside then
     # specify the attributes you want.
     class AnswerSerializer < ActiveModel::Serializer
-      attributes :id, :body, :created_at, :updated_at, :author_full_name
+      attributes :id, :body, :contact, :created_at, :updated_at, :author_full_name
 
       def author_full_name
         # To get the model instance that's being serialized,

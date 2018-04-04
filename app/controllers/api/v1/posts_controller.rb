@@ -4,13 +4,12 @@ class Api::V1::PostsController < Api::ApplicationController
     before_action :authorize_user!, only: [:destroy]
 
     def index
-
-      if params[:search1].present? && params[:search2].present?
-        posts = Post.near(params[:search2], 50).search(params[:search1]).order("created_at DESC")
-      elsif params[:search1].present?
-        posts = Post.search(params[:search1]).order("created_at DESC")
-      elsif params[:search2].present?
-        posts = Post.near(params[:search2], 50)
+      if params[:search_item].present? && params[:search_location].present?
+        posts = Post.near(params[:search_location], 50).search(params[:search_item]).order("created_at DESC")
+      elsif params[:search_item].present?
+        posts = Post.search(params[:search_item]).order("created_at DESC")
+      elsif params[:search_location].present?
+        posts = Post.near(params[:search_location], 50)
       else
         posts = Post.all.order("created_at DESC")
       end
@@ -49,8 +48,7 @@ class Api::V1::PostsController < Api::ApplicationController
 
     def authorize_user!
       unless can?(:manage, @post)
-        flash[:alert] = "Access Denied"
-        redirect_to product_path(@post.post)
+        render json: {errors: "Access Denied"}
       end
     end
 

@@ -20,10 +20,10 @@ end
 def index
   # byebug
   @posts = Post.all
-  if params[:search1].present?
-    @posts = Post.search(params[:search1]).order("created_at DESC")
-  elsif params[:search2].present?
-    @posts = Post.near(params[:search2], 50, :order => "distance").limit(10)
+  if params[:search_item].present?
+    @posts = Post.search(params[:search_item]).order("created_at DESC")
+  elsif params[:search_location].present?
+    @posts = Post.near(params[:search_location], 50, :order => "distance").limit(10)
   else
     @posts = Post.all.order("created_at DESC")
   end

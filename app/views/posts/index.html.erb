@@ -2,7 +2,7 @@
 
   <%= form_tag posts_path, :method => :get do %>
     <p>
-  <%= text_field_tag :search2, "", placeholder: "Your Address" %>
+  <%= text_field_tag :search_location, "", placeholder: "Your Address" %>
 
   <%= submit_tag "Search Near", class: "btn btn-outline-primary mr-2", :name => nil %>
     </p>
@@ -16,19 +16,11 @@
 
 <% @posts.each do |post| %>
 <div class="post-list-item">
-  <% if post.img && post.img != '' %>
-  <%= image_tag(post.img ,
-    class: "img-fluid",
-    style: "border-radius: 5px; width:200px; height:200;"
-    ) %>
-  <% else %>
   <%= image_tag("Gifticon.png" ,
     class: "img-fluid",
     style: "border-radius: 5px;
     width:200px; height:200px;"
     ) %>
-  <% end %>
-
   </br>
   <%= link_to post.title, post_path(post) %></br>
   <%= post.body %>

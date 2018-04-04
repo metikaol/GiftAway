@@ -27,7 +27,7 @@
              <div class="form-inline">
                <%= form_tag(posts_path, :method => "get", id: "search-form") do %>
 
-               <%= text_field_tag :search1, params[:search1], class:"form-control mr-2", placeholder: "Search Posts" %>
+               <%= text_field_tag :search_item, params[:search_item], class:"form-control mr-2", placeholder: "Search Posts" %>
 
                <%= submit_tag "Search", class: "btn btn-outline-primary mr-2", :name => nil %>
                <% end %>
@@ -94,11 +94,6 @@
                   <div >
                     <%= f.label :title %>
                     <%= f.text_field :title ,class:"form-control"%>
-                  </div>
-
-                  <div >
-                    <%= f.label :image %>
-                    <%= f.text_field :img ,class:"form-control"%>
                   </div>
 
                   <div >

@@ -1,15 +1,9 @@
-<% if @post.img && @post.img != ''%>
-  <%= image_tag(@post.img ,
-    class: "img-fluid",
-    style: "border-radius: 5px; width:200px; height:200;"
-    ) %>
-<% else %>
+
   <%= image_tag("Gifticon.png" ,
     class: "img-fluid",
     style: "border-radius: 5px;
     width:200px; height:200px;"
     ) %>
-<% end %>
 
 <h2><%= @post.title %></h2>
 

@@ -20,18 +20,14 @@ class Api::V1::AnswersController < Api::ApplicationController
 
             render json: @post
 
-           # redirect_to post_path(@post)
          else
            @answers = @post.answers.order(created_at: :desc)
-           # render 'posts/show'
            render json: @answers
          end
     end
 
     def destroy
-      answer = Answer.find params[:id]
-      answer.destroy
-      # redirect_to post_path(answer.post)
+      @answer.destroy
     end
 
     private
@@ -45,8 +41,7 @@ class Api::V1::AnswersController < Api::ApplicationController
 
     def authorize_user!
       unless can?(:manage, @answer)
-        flash[:alert] = "Access Denied"
-        redirect_to product_path(@answer.post)
+        render json: {errors: "Access Denied"}
       end
     end
 
