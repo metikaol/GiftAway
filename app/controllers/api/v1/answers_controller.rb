@@ -15,7 +15,7 @@ class Api::V1::AnswersController < Api::ApplicationController
             client.messages.create({
               from: Rails.application.secrets.twilio_phone_number,
               to: "1#{@post.user.contact_number}",
-              body: "Reply: #{@answer.body} from: #{@answer.user.first_name} Contacted by: #{@answer.contact}"
+              body: "message: #{@answer.body} from: #{@answer.user.first_name} Contact info: #{@answer.contact}"
             })
 
             render json: @post
