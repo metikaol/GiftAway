@@ -1,24 +1,12 @@
-# README
+# GiftAway-Rails-API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+GiftAway application is made to be a space for giving! People give away
+their unneeded items to other people that need them.
+Check it out on Heroku: https://gift-away.herokuapp.com/.
 
-Things you may want to cover:
+## Technologies Used
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Ruby on Rails
+* PostgreSQL
+* Twilio API
+* AWS-S3
